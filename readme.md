@@ -36,7 +36,7 @@ Antes de rodar o projeto, você precisa ter:
 ### 1. Clone o repositório
  
 ```bash
-git clone https://github.com/SEU_USUARIO/agent-task-manager.git
+git clone https://github.com/sthefanyalaminos/agent-task-manager.git
 cd agent-task-manager
 ```
  
