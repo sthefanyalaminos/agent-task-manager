@@ -1,4 +1,6 @@
 # Agente IA de Gerenciamento de Tarefas com Trello
+
+[Translate to English](https://github.com/sthefanyalaminos/agent-task-manager/blob/main/README_EN.md)
  
 > Projeto desenvolvido como parte do desafio do Bootcamp CI&T – Do Prompt ao Agente, realizado pela DIO. O objetivo é construir um agente de IA conversacional que automatiza o gerenciamento de tarefas no Trello, integrando Python com a API do Trello e o Google ADK.
  
