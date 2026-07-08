@@ -1,0 +1,256 @@
+{
+  "name": "agent-task-manager",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -272,
+        -144
+      ],
+      "id": "3009d0c5-9dd5-4bfe-bedb-3000fa50876e",
+      "name": "When chat message received",
+      "webhookId": "1d54164d-c7ce-4f5f-86b6-2b74462ce9a6"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você gerencia tarefas no Trello.\n\nAo ser iniciado, faça uma saudação personalizada e pergunte quais são as tarefas do dia.\nInterprete a mensagem do usuário e determine:\n\n- título da tarefa\n- status\n\nAntes de criar uma tarefa, consulte os cards existentes.\n\nSe encontrar uma tarefa com o mesmo nome, mova o card para a lista correta.\n\nSe não encontrar, crie um novo card.\n\nUtilize as ferramentas disponíveis para executar essas ações.\n\nIDs das listas:\n\nA fazer\n{ID_LISTA}\n\nEm andamento\n{ID_LISTA}\n\nConcluído\n{ID_LISTA}\n\nSempre que utilizar a ferramenta \"Criar Card\":\n\n- preencha o campo name com o título da tarefa\n- preencha o campo idList com o ID correspondente à lista\n\nNunca envie o nome da lista para o campo idList."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -64,
+        -144
+      ],
+      "id": "f87d5932-209a-4cd3-9bee-6a90003f1c3f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        64
+      ],
+      "id": "19d024cf-b5a2-4bf2-b21a-fd7cd5b98059",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "5urf2SPxtK4810K0",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.6,
+      "position": [
+        -32,
+        64
+      ],
+      "id": "72cc0bc6-7194-418f-ae94-c140170b85f1",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "Hk0Bc1wrtVhbdXSy",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Busca todos os cards existentes no board do Trello e retorna seus IDs, nomes e listas.",
+        "url": "https://api.trello.com/1/boards/{ID_BOARD}/cards",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "{API_KEY}"
+            },
+            {
+              "name": "token",
+              "value": "{TOKEN}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        144,
+        64
+      ],
+      "id": "6a7ceac8-6f64-4a15-8e3f-68e4ef161a53",
+      "name": "Buscar Cards - Trello"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Cria um novo card no Trello.",
+        "method": "POST",
+        "url": "https://api.trello.com/1/cards",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "{API_KEY}"
+            },
+            {
+              "name": "token",
+              "value": "{TOKEN}"
+            },
+            {
+              "name": "idList",
+              "value": "={{ $fromAI('parameters3_Value', `ID da lista do Trello.\n\nValores permitidos:\n\nA fazer -> {ID_LISTA}\n\nEm andamento -> {ID_LISTA}\n\nConcluído -> {ID_LISTA}\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $fromAI('parameters2_Value', `Título da tarefa.\n\nExemplos:\n\nDesenvolver login\n\nEstudar n8n\n\nMarcar consulta médica\n\nRetorne apenas o título da tarefa.`, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        336,
+        64
+      ],
+      "id": "8d1c438f-2fbb-4d5f-af33-6f91d236a5ef",
+      "name": "Criar Card - Trello"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Move card para listas de acordo com o andamento da tarefa",
+        "method": "PUT",
+        "url": "https://api.trello.com/1/cards/{{cardId}}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "{API_KEY}"
+            },
+            {
+              "name": "token",
+              "value": "{TOKEN}"
+            },
+            {
+              "name": "idList",
+              "value": "={{ $fromAI('parameters3_Value', ``, 'string') }}"
+            },
+            {
+              "name": "cardId",
+              "value": "={{ $fromAI('parameters2_Value', ``, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        528,
+        64
+      ],
+      "id": "6a049eec-6f13-4ff4-9b9c-8421b21996ce",
+      "name": "Mover Card - Trello"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Cards - Trello": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Card - Trello": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mover Card - Trello": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1883b03a-ad25-4cfa-af73-b5286716f8f7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d76122250c87f6c6502cdc87fcb063ac1ed6b83859884f4b9448bbc0b5515500"
+  },
+  "nodeGroups": [],
+  "id": "lvu5j1CJUoz6xUGj",
+  "tags": []
+}
