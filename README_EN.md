@@ -48,7 +48,7 @@ AI Agent
    - **Google AI API Key** (Gemini)
    - **Redis** (host, port and password)
    - **Trello API Key + Token**
-3. Adjust the Trello list IDs (To Do, In Progress, Done) in the HTTP Request nodes.
+3. Adjust the Trello list IDs (To Do, In Progress, Done) at the system message of the AI Agent and in the HTTP Request nodes.
 4. Activate the workflow and start the conversation through the n8n chat.
 
 ## Authorship
