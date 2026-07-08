@@ -1,4 +1,5 @@
 # 🤖 AI Agent for Trello Task Management via Chat
+[Traduzir para Poruguês](https://github.com/sthefanyalaminos/agent-task-manager/blob/main/README.md)
  
 > n8n automation that turns a simple chat conversation into automatic Trello card updates.
  
