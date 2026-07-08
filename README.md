@@ -2,6 +2,8 @@
 [Translate to English](https://github.com/sthefanyalaminos/agent-task-manager/blob/main/README_EN.md)
  
 > Automação no n8n que transforma uma conversa simples no chat em atualizações automáticas de cards no Trello.
+
+<img src="assets/images/1.png">
  
 ---
 Esse projeto nasceu da vontade de simplificar algo que faço todo dia: organizar minhas tarefas. Em vez de abrir o board no Trello e arrastar cards manualmente, criei um agente de IA que conversa comigo, entende o que eu falo sobre o andamento do meu dia e atualiza o board sozinho.
