@@ -13,7 +13,7 @@ Ao iniciar a conversa, o agente cumprimenta o usuário e pergunta quais são as 
 
 A integração acontece em tempo real: cada atualização informada no chat reflete imediatamente no board do Trello.
 
-### Como funciona
+## Como funciona
 1. O usuário inicia a conversa no chat do n8n.
 2. O agente (Google Gemini) cumprimenta e pergunta quais são as tarefas do dia.
 3. O usuário relata o andamento de cada atividade em linguagem natural.
@@ -21,8 +21,34 @@ A integração acontece em tempo real: cada atualização informada no chat refl
 5. Uma requisição HTTP é enviada à API do Trello, movendo o card para a lista correspondente.
 6. O Redis mantém o histórico da conversa, dando contexto ao agente entre as interações.
 
-### Tecnologias utilizadas
+## Tecnologias utilizadas
 - **n8n** - Orquestração do workflow
 - **Google Gemini (Google AI API)** - Modelo de linguagem do agente
 - **Redis** - Memória de conversa (Redis Chat Memory)
 - **Trello API** - Leitura e atualização dos cards via HTTP Request
+
+## Arquitetura do workflow
+ 
+```
+Chat Trigger (n8n)
+      │
+      ▼
+AI Agent 
+      ├── Gemini Chat Model (modelo de linguagem)
+      │
+      ├── Redis Chat Memory (contexto da conversa)
+      │
+      └── HTTP Request → Trello API (buscar, criar e mover card entre listas)
+```
+
+## Como usar 
+1. Importe o arquivo `workflow.json` no seu n8n.
+2. Configure as credenciais:
+   - **Google AI API Key** (Gemini)
+   - **Redis** (host, port e password)
+   - **Trello API Key + Token**
+3. Ajuste os IDs das listas do Trello (A Fazer, Em Andamento, Concluído) nos nodes de HTTP Request.
+4. Ative o workflow e inicie a conversa pelo chat do n8n.
+
+## Autoria
+Projeto desenvolvido por Sthefany Alaminos.
