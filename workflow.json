@@ -113,7 +113,7 @@
             },
             {
               "name": "idList",
-              "value": "={{ $fromAI('parameters3_Value', `ID da lista do Trello.\n\nValores permitidos:\n\nA fazer -> 6a1f5f874c8e4aa5e7c341a9\n\nEm andamento -> 6a1f5f874c8e4aa5e7c341aa\n\nConcluído -> 6a1f5f874c8e4aa5e7c341ab\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
+              "value": "={{ $fromAI('parameters3_Value', `ID da lista do Trello.\n\nValores permitidos:\n\nA fazer -> {idList}\n\nEm andamento -> {idList}\n\nConcluído -> {idList}\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
             },
             {
               "name": "name",
