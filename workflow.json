@@ -3,50 +3,50 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.4,
-      "position": [
-        -272,
-        -144
-      ],
-      "id": "3009d0c5-9dd5-4bfe-bedb-3000fa50876e",
-      "name": "When chat message received",
-      "webhookId": "1d54164d-c7ce-4f5f-86b6-2b74462ce9a6"
-    },
-    {
-      "parameters": {
         "options": {
-          "systemMessage": "Você gerencia tarefas no Trello.\n\nAo ser iniciado, faça uma saudação personalizada e pergunte quais são as tarefas do dia.\nInterprete a mensagem do usuário e determine:\n\n- título da tarefa\n- status\n\nAntes de criar uma tarefa, consulte os cards existentes.\n\nSe encontrar uma tarefa com o mesmo nome, mova o card para a lista correta.\n\nSe não encontrar, crie um novo card.\n\nUtilize as ferramentas disponíveis para executar essas ações.\n\nIDs das listas:\n\nA fazer\n{ID_LISTA}\n\nEm andamento\n{ID_LISTA}\n\nConcluído\n{ID_LISTA}\n\nSempre que utilizar a ferramenta \"Criar Card\":\n\n- preencha o campo name com o título da tarefa\n- preencha o campo idList com o ID correspondente à lista\n\nNunca envie o nome da lista para o campo idList."
+          "systemMessage": "Você gerencia tarefas no Trello.\n\nAo ser iniciado, faça uma saudação personalizada e pergunte quais são as tarefas do dia.\nInterprete a mensagem do usuário e determine:\n\n- título da tarefa\n- status\n\nAntes de criar uma tarefa, consulte os cards existentes.\n\nSe encontrar uma tarefa com o mesmo nome, mova o card para a lista correta.\n\nSe não encontrar, crie um novo card.\n\nUtilize as ferramentas disponíveis para executar essas ações.\n\nIDs das listas:\n\nA fazer\n{idList}\n\nEm andamento\n{idList}\n\nConcluído\n{idList}\n\nSempre que utilizar a ferramenta \"Criar Card\":\n\n- preencha o campo name com o título da tarefa\n- preencha o campo idList com o ID correspondente à lista\n\nNunca envie o nome da lista para o campo idList."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -64,
-        -144
+        544,
+        16
       ],
-      "id": "f87d5932-209a-4cd3-9bee-6a90003f1c3f",
-      "name": "AI Agent"
+      "id": "b01e45c6-3e84-4bb3-95e7-7c89534af25b",
+      "name": "AI Agent1"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        368,
+        16
+      ],
+      "id": "6aedc659-f547-4f9b-907a-0945188a2f90",
+      "name": "When chat message received",
+      "webhookId": "86ddad04-d41e-4b19-abe6-99d6fae08131"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        -224,
-        64
+        384,
+        224
       ],
-      "id": "19d024cf-b5a2-4bf2-b21a-fd7cd5b98059",
+      "id": "b0005213-d259-404b-8c64-a6da742c3cc8",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "5urf2SPxtK4810K0",
-          "name": "Google Gemini(PaLM) Api account 2"
+          "id": "u2PAlqaw7qzxLs4E",
+          "name": "Google Gemini(PaLM) Api account"
         }
       }
     },
@@ -55,10 +55,10 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.6,
       "position": [
-        -32,
-        64
+        576,
+        224
       ],
-      "id": "72cc0bc6-7194-418f-ae94-c140170b85f1",
+      "id": "f097f04e-86fe-45bf-9f58-3113ca5dca2d",
       "name": "Redis Chat Memory",
       "credentials": {
         "redis": {
@@ -70,17 +70,17 @@
     {
       "parameters": {
         "toolDescription": "Busca todos os cards existentes no board do Trello e retorna seus IDs, nomes e listas.",
-        "url": "https://api.trello.com/1/boards/{ID_BOARD}/cards",
+        "url": "https://api.trello.com/1/boards/6a1f5f874c8e4aa5e7c3416d/cards",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
               "name": "key",
-              "value": "{API_KEY}"
+              "value": "API_KEY"
             },
             {
               "name": "token",
-              "value": "{TOKEN}"
+              "value": "API_TOKEN"
             }
           ]
         },
@@ -89,10 +89,10 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.4,
       "position": [
-        144,
-        64
+        752,
+        224
       ],
-      "id": "6a7ceac8-6f64-4a15-8e3f-68e4ef161a53",
+      "id": "f56ef0b3-32d2-441c-97c3-5bfcf5560d02",
       "name": "Buscar Cards - Trello"
     },
     {
@@ -105,15 +105,15 @@
           "parameters": [
             {
               "name": "key",
-              "value": "{API_KEY}"
+              "value": "API_KEY"
             },
             {
               "name": "token",
-              "value": "{TOKEN}"
+              "value": "API_TOKEN"
             },
             {
               "name": "idList",
-              "value": "={{ $fromAI('parameters3_Value', `ID da lista do Trello.\n\nValores permitidos:\n\nA fazer -> {ID_LISTA}\n\nEm andamento -> {ID_LISTA}\n\nConcluído -> {ID_LISTA}\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
+              "value": "={{ $fromAI('parameters3_Value', `ID da lista do Trello.\n\nValores permitidos:\n\nA fazer -> 6a1f5f874c8e4aa5e7c341a9\n\nEm andamento -> 6a1f5f874c8e4aa5e7c341aa\n\nConcluído -> 6a1f5f874c8e4aa5e7c341ab\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
             },
             {
               "name": "name",
@@ -126,35 +126,31 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.4,
       "position": [
-        336,
-        64
+        944,
+        224
       ],
-      "id": "8d1c438f-2fbb-4d5f-af33-6f91d236a5ef",
+      "id": "50300cdf-a55f-4c07-9366-70eea7b23072",
       "name": "Criar Card - Trello"
     },
     {
       "parameters": {
-        "toolDescription": "Move card para listas de acordo com o andamento da tarefa",
+        "toolDescription": "Move um card existente do Trello para outra lista. Antes de usar esta ferramenta, use a ferramenta \"Buscar Cards - Trello\" para obter o ID correto do card que será movido.",
         "method": "PUT",
-        "url": "https://api.trello.com/1/cards/{{cardId}}",
+        "url": "={{ 'https://api.trello.com/1/cards/' + $fromAI('cardId', 'ID do card do Trello a ser movido. Obtenha esse ID consultando a ferramenta Buscar Cards - Trello antes de mover o card. Retorne apenas o ID do card, sem texto adicional, sem URL completa.', 'string') }}",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
               "name": "key",
-              "value": "{API_KEY}"
+              "value": "API_KEY"
             },
             {
               "name": "token",
-              "value": "{TOKEN}"
+              "value": "API_TOKEN"
             },
             {
               "name": "idList",
-              "value": "={{ $fromAI('parameters3_Value', ``, 'string') }}"
-            },
-            {
-              "name": "cardId",
-              "value": "={{ $fromAI('parameters2_Value', ``, 'string') }}"
+              "value": "={{ $fromAI('parameters2_Value', `ID da lista de destino do Trello.\n\nValores permitidos:\n\nA fazer -> 6a1f5f874c8e4aa5e7c341a9\n\nEm andamento -> 6a1f5f874c8e4aa5e7c341aa\n\nConcluído -> 6a1f5f874c8e4aa5e7c341ab\n\nRetorne apenas um dos IDs acima.`, 'string') }}"
             }
           ]
         },
@@ -163,10 +159,10 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.4,
       "position": [
-        528,
-        64
+        1136,
+        224
       ],
-      "id": "6a049eec-6f13-4ff4-9b9c-8421b21996ce",
+      "id": "6ca05e1f-cb41-4452-8f5b-4e9a542b6118",
       "name": "Mover Card - Trello"
     }
   ],
@@ -176,7 +172,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "main",
             "index": 0
           }
@@ -187,7 +183,7 @@
       "ai_languageModel": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -198,7 +194,7 @@
       "ai_memory": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_memory",
             "index": 0
           }
@@ -209,7 +205,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_tool",
             "index": 0
           }
@@ -220,7 +216,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_tool",
             "index": 0
           }
@@ -231,7 +227,7 @@
       "ai_tool": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "ai_tool",
             "index": 0
           }
@@ -242,15 +238,14 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": false
+    "binaryMode": "separate"
   },
-  "versionId": "1883b03a-ad25-4cfa-af73-b5286716f8f7",
+  "versionId": "e2f419f2-6c23-4fae-a1b4-ce676223da42",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d76122250c87f6c6502cdc87fcb063ac1ed6b83859884f4b9448bbc0b5515500"
   },
   "nodeGroups": [],
-  "id": "lvu5j1CJUoz6xUGj",
+  "id": "XQOehlB1jEBK7JFJ",
   "tags": []
 }
