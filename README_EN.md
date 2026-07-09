@@ -4,9 +4,9 @@
 > n8n automation that turns a simple chat conversation into automatic Trello card updates.
 
 <img src="assets/images/1.png">
-<img src="assets/images/2.png">
-<img src="assets/images/3.png">
- 
+
+https://github.com/user-attachments/assets/8d2f736c-3a75-4302-a17d-81665d4ee001
+
 ---
 This project came from wanting to simplify something I do every day: organizing my tasks. Instead of opening the Trello board and dragging cards manually, I built an AI agent that talks to me, understands what I say about my day's progress, and updates the board on its own.
  
