@@ -4,9 +4,9 @@
 > Automação no n8n que transforma uma conversa simples no chat em atualizações automáticas de cards no Trello.
 
 <img src="assets/images/1.png">
-<img src="assets/images/2.png">
-<img src="assets/images/3.png">
- 
+
+https://github.com/user-attachments/assets/139de298-7f63-464c-9dc9-157b24958ab8
+
 ---
 Esse projeto nasceu da vontade de simplificar algo que faço todo dia: organizar minhas tarefas. Em vez de abrir o board no Trello e arrastar cards manualmente, criei um agente de IA que conversa comigo, entende o que eu falo sobre o andamento do meu dia e atualiza o board sozinho.
  
